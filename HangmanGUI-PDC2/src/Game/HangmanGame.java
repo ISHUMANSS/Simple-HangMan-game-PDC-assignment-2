@@ -102,67 +102,67 @@ public class HangmanGame {
         String[] words = wr.wordList.toArray(new String[0]);
         FileWriter fw = new FileWriter();
 
-    boolean isRunning = true;
+        boolean isRunning = true;
         Scanner scanner = new Scanner(System.in);
         UsernameManager usernameManager = new UsernameManager();
         HangmanGame game = new HangmanGame(words, 8, "your_username", usernameManager);
 
-    for (int i = 0; i < words.length; i++) {
-        words[i] = words[i].toLowerCase();
-    }
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].toLowerCase();
+        }
 
-    try (Scanner scan = new Scanner(System.in)) {
-        while (isRunning) {
-            System.out.println("\nGame has started!");
-            System.out.println("What would you like to do?");
-            System.out.println("1. Sign up");
-            System.out.println("2. Sign in");
-            System.out.println("3. Start the game");
-            System.out.println("4. Add a word to the file");
-            System.out.println("5. Quit\n");
+        try (Scanner scan = new Scanner(System.in)) {
+            while (isRunning) {
+                System.out.println("\nGame has started!");
+                System.out.println("What would you like to do?");
+                System.out.println("1. Sign up");
+                System.out.println("2. Sign in");
+                System.out.println("3. Start the game");
+                System.out.println("4. Add a word to the file");
+                System.out.println("5. Quit\n");
 
-            String answer = scanner.nextLine();
-            switch (answer.toLowerCase()) {
-                case "1":
-                    UserSignUp.signUp();
-                    break;
+                String answer = scanner.nextLine();
+                switch (answer.toLowerCase()) {
+                    case "1":
+                        UserSignUp.signUp();
+                        break;
 
-                case "2":
-                    game.authenticateUser();
-                    break;
+                    case "2":
+                        game.authenticateUser();
+                        break;
 
-                case "3":
-                    if (!game.gameEnded && game.remainingTries > 0) {
-                        gameLoop(scan, game);
-                    }
-                    break;
+                    case "3":
+                        if (!game.gameEnded && game.remainingTries > 0) {
+                            gameLoop(scan, game);
+                        }
+                        break;
 
-                case "4":
-                    System.out.println("Would you like to replace all the text in the file? (yes/no)");
-                    String addTextAnswer = scan.nextLine();
-                    if (addTextAnswer.equalsIgnoreCase("yes")) {
-                        System.out.println("Replacing all text in file:");
-                        System.out.println("What word would you like to add:");
-                        String text = scan.nextLine();
-                        fw.replaceAllWords(text);
-                    } else if (addTextAnswer.equalsIgnoreCase("no")) {
-                        System.out.println("Import text you want to add to the file:");
-                        String text = scan.nextLine();
-                        fw.write(text);
-                    } else {
-                        System.out.println("Please enter 'yes' or 'no'.");
-                    }
-                    break;
+                    case "4":
+                        System.out.println("Would you like to replace all the text in the file? (yes/no)");
+                        String addTextAnswer = scan.nextLine();
+                        if (addTextAnswer.equalsIgnoreCase("yes")) {
+                            System.out.println("Replacing all text in file:");
+                            System.out.println("What word would you like to add:");
+                            String text = scan.nextLine();
+                            fw.replaceAllWords(text);
+                        } else if (addTextAnswer.equalsIgnoreCase("no")) {
+                            System.out.println("Import text you want to add to the file:");
+                            String text = scan.nextLine();
+                            fw.write(text);
+                        } else {
+                            System.out.println("Please enter 'yes' or 'no'.");
+                        }
+                        break;
 
 
-                case "5":
-                    isRunning = false;
-                    break;
+                    case "5":
+                        isRunning = false;
+                        break;
 
-                default:
-                    System.out.println("That wasn't one of the options. Please input again!");
-            }
-        }   
+                    default:
+                        System.out.println("That wasn't one of the options. Please input again!");
+                }
+            }   
     }
 }
 

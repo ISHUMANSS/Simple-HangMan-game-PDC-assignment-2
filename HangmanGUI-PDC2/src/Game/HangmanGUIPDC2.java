@@ -15,6 +15,12 @@ public class HangmanGUIPDC2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        //sets up the pannel
+        GUIFrame gf = new GUIFrame();
+        gf.setVisible(true);
+        
+        
     }
     
 }
