@@ -12,12 +12,15 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//acts as the view in the MCV pattern
+//Frame that sets up the game
 public class GUIFrame extends JFrame implements ActionListener{
-    
+   
     
     public int WIDTH = 700;
     public int HEIGHT = 700;
@@ -27,11 +30,13 @@ public class GUIFrame extends JFrame implements ActionListener{
     public JButton testButton;
     public JLabel testText;
     
+    public JLabel currentTrys;
+    
     private static String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
     public JButton [] alphabetButtons = new JButton[letters.length];
     
     
-    
+    public HangmanGame gameRunner ;
     
     
     
@@ -46,6 +51,7 @@ public class GUIFrame extends JFrame implements ActionListener{
         //sets up all the components
         this.testButton = new JButton("Gamestart");
         this.testText = new JLabel("Test text");
+        this.currentTrys = new JLabel("AHHHHH");
         
         //set up alphabet buttons
         for(int i = 0; i < letters.length; ++i){
@@ -81,12 +87,21 @@ public class GUIFrame extends JFrame implements ActionListener{
         this.add(southPanel, BorderLayout.SOUTH);
         
         //button section
+        JPanel holder = new JPanel();
+        holder.setLayout(new GridLayout(2,1));
         JPanel alphaButtonsPannel = new JPanel();
         alphaButtonsPannel.setLayout(new GridLayout(2, 13));
         for(int i = 0; i < alphabetButtons.length; i++){
             alphaButtonsPannel.add(alphabetButtons[i]);
         }
-        this.add(alphaButtonsPannel, BorderLayout.CENTER);
+        
+        //loads the hangman image
+        GraphicalHanger gh = new GraphicalHanger();
+        gh.add(this.currentTrys);
+        holder.add(gh);
+        holder.add(alphaButtonsPannel);
+        
+        this.add(holder, BorderLayout.CENTER);
         
         
     }
@@ -108,14 +123,25 @@ public class GUIFrame extends JFrame implements ActionListener{
             WordRandomiser wr = new WordRandomiser();
             System.out.println("Random word is: " + wr.randomWord);
             this.testText.setText(wr.randomWord);
+            
+            //added for testing
+            HangmanDisplay hd = new HangmanDisplay();
+            hd.displayHangman();
+            hd.incrementCount();
+            hd.displayHangman();
         }
         if(e.getSource() instanceof JButton){
             JButton pressedButton = (JButton) e.getSource();
             
-            String buttonsName = pressedButton.getName();
-            String buttonsText = pressedButton.getText();
+            String buttonsName = pressedButton.getName();//Currently shows null :(
+            String buttonsText = pressedButton.getText().trim();
             
+            if(buttonsText.equals(Character.isAlphabetic(0)) ){
+                //what the button does
+                
+            }
             
+            //Prints out twice?
             System.out.println(buttonsName + " was pressed, contains: " + buttonsText);
         }
         

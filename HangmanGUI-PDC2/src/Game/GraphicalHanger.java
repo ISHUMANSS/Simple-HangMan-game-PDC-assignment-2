@@ -4,6 +4,8 @@
  */
 package Game;
 
+import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.*;
 
 /**
@@ -14,15 +16,20 @@ import javax.swing.*;
 //Displays the images of the man being hanged
 
 //private Image image;
-public class GraphicalHanger extends JComponent{
+public class GraphicalHanger extends JPanel{
     //has an image for each section of when the player gets it wrong
     //graphical version of HangmanDisplay class
     
+    public Image image;
     
-//    @override
-//    public void paintComponent( Graphics g ){
-//        image = new ImageIcon("").getImage(); //imports the image
-//        g.drawImage(image, 0,0,null);
-//    }
+    public GraphicalHanger(){
+        this.image = new ImageIcon("./images/HangmanTestimage.png").getImage();
+    }
+    
+    @Override
+    public void paintComponent( Graphics g ){
+        super.paintComponent(g);
+        g.drawImage(this.image, 0,0,null);
+    }
     
 }
