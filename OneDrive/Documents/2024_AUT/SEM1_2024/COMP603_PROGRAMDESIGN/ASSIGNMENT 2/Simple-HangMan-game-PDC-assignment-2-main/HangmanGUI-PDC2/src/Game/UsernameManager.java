@@ -25,9 +25,7 @@ public class UsernameManager {
         e.printStackTrace();
         }
     }
-    
-    // hi
-    
+   
     // Load usernames and password Hashes 
     public static List<String> loadUsernamesAndPasswordHashes()throws FileNotFoundException{
         List<String> usernamesAndPasswordHashes = new ArrayList<>();
