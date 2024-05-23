@@ -24,7 +24,7 @@ public class GUIFrame extends JFrame implements ActionListener{
     
     public int WIDTH = 700;
     public int HEIGHT = 700;
-    public String TITLE = "Hanman Game";
+    public String TITLE = "Hangman Game";
     
     //buttons
     public JButton testButton;
@@ -37,6 +37,7 @@ public class GUIFrame extends JFrame implements ActionListener{
     
     
     public HangmanGame gameRunner ;
+    public HangmanDisplay hangmanDisplay;
     
     
     
@@ -51,7 +52,7 @@ public class GUIFrame extends JFrame implements ActionListener{
         //sets up all the components
         this.testButton = new JButton("Gamestart");
         this.testText = new JLabel("Test text");
-        this.currentTrys = new JLabel("AHHHHH");
+        this.currentTrys = new JLabel("Lives left: 8");//how many lifes left
         
         //set up alphabet buttons
         for(int i = 0; i < letters.length; ++i){
