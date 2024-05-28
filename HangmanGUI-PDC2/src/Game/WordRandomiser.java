@@ -12,7 +12,7 @@ import java.util.Random;
 
 /**
  *
- * @author alist
+ * @author alist javer
  */
 
 //Takes in all the words from the file and picks a random one
@@ -38,5 +38,9 @@ public class WordRandomiser extends ReadFile {
             i++;
         }
         return null;
+    }
+    
+    public String getRandomWord(){
+        return randomWord;
     }
 }
