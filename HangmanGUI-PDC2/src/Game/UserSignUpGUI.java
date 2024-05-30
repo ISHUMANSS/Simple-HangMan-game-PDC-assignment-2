@@ -8,6 +8,8 @@ package Game;
  *
  * @author alist
  */
+
+//treated as a view
 public class UserSignUpGUI extends javax.swing.JFrame {
 
     /**

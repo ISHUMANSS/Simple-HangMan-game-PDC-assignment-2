@@ -8,6 +8,9 @@ package Game;
  *
  * @author alist
  */
+
+
+//treated as a view
 public class UserLogin extends javax.swing.JFrame {
 
     /**

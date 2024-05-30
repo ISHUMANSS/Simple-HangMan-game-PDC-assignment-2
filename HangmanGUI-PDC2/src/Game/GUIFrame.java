@@ -17,7 +17,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//acts as the view in the MCV pattern
+
 //Frame that sets up the game
 public class GUIFrame extends JFrame implements ActionListener{
    
@@ -32,7 +32,7 @@ public class GUIFrame extends JFrame implements ActionListener{
     
     public JLabel currentTrys;
     
-    private static String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
+    private static final String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
     public JButton [] alphabetButtons = new JButton[letters.length];
     
     
@@ -53,6 +53,7 @@ public class GUIFrame extends JFrame implements ActionListener{
         this.testButton = new JButton("Gamestart");
         this.testText = new JLabel("Test text");
         this.currentTrys = new JLabel("Lives left: 8");//how many lifes left
+        this.currentTrys.setSize(60, 50);
         
         //set up alphabet buttons
         for(int i = 0; i < letters.length; ++i){
@@ -98,8 +99,8 @@ public class GUIFrame extends JFrame implements ActionListener{
         
         //loads the hangman image
         GraphicalHanger gh = new GraphicalHanger();
-        gh.add(this.currentTrys);
-        holder.add(gh);
+        gh.add(this.currentTrys, BorderLayout.NORTH);
+        holder.add(gh, BorderLayout.SOUTH);
         holder.add(alphaButtonsPannel);
         
         this.add(holder, BorderLayout.CENTER);

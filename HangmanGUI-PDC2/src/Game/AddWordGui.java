@@ -10,6 +10,8 @@ package Game;
  */
 
 
+
+//treated as a view
 //for when logined in and have admin access
 public class AddWordGui extends javax.swing.JFrame {
 
