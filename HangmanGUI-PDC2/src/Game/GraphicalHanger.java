@@ -106,15 +106,7 @@ public class GraphicalHanger extends JPanel{
     public void paintComponent( Graphics g ){
         super.paintComponent(g);
         
-          
-        
         loadImage();
-        //lableForImage.setIcon(image);
-        //lableForImage.add(this);
-        this.add(lableForImage);
-        
-        
-        
         repaint();
     }
     

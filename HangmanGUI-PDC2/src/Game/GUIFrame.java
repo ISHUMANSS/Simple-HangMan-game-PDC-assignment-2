@@ -11,6 +11,7 @@ package Game;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -26,12 +27,18 @@ public class GUIFrame extends JFrame implements ActionListener{
     public int HEIGHT = 700;
     public String TITLE = "Hangman Game";
     
+    
+    
+    //Labels
+    public JLabel hangmanWord;
+    public JLabel lives;
+    
+    //Fonts
+    public Font hangmanWordFont;
+    public Font livesFont;
+    
     //buttons
-    public JButton testButton;
-    public JLabel testText;
-    
-    public JLabel currentTrys;
-    
+    public JButton testButton; //currenly starts the game to get rid of soon
     private static final String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
     public JButton [] alphabetButtons = new JButton[letters.length];
     
@@ -49,11 +56,17 @@ public class GUIFrame extends JFrame implements ActionListener{
     }
     
     public void initComponents(){
+        //set up the fonts
+        this.hangmanWordFont = new Font("Calibri", Font.BOLD, 30);
+        this.livesFont = new Font("Calibri", Font.PLAIN, 20);
+        
         //sets up all the components
         this.testButton = new JButton("Gamestart");
-        this.testText = new JLabel("Test text");
-        this.currentTrys = new JLabel("Lives left: 8");//how many lifes left
-        this.currentTrys.setSize(60, 50);
+        this.hangmanWord = new JLabel("HangMan word", SwingConstants.CENTER);
+        this.hangmanWord.setFont(hangmanWordFont);
+        this.lives = new JLabel("Lives left: 8", SwingConstants.CENTER);//how many lifes left
+        this.lives.setFont(livesFont);
+        
         
         //set up alphabet buttons
         for(int i = 0; i < letters.length; ++i){
@@ -79,7 +92,9 @@ public class GUIFrame extends JFrame implements ActionListener{
     public void initPanels(){
         //north Panel
         JPanel northPanel = new JPanel();
-        northPanel.add(testText);
+        northPanel.setLayout(new GridLayout(2,1));
+        northPanel.add(hangmanWord);
+        northPanel.add(lives,BorderLayout.SOUTH);
         this.add(northPanel, BorderLayout.NORTH);
         
         
@@ -88,7 +103,8 @@ public class GUIFrame extends JFrame implements ActionListener{
         southPanel.add(testButton);
         this.add(southPanel, BorderLayout.SOUTH);
         
-        //button section
+        //Center section
+        //Buttons part of center
         JPanel holder = new JPanel();
         holder.setLayout(new GridLayout(2,1));
         JPanel alphaButtonsPannel = new JPanel();
@@ -96,11 +112,9 @@ public class GUIFrame extends JFrame implements ActionListener{
         for(int i = 0; i < alphabetButtons.length; i++){
             alphaButtonsPannel.add(alphabetButtons[i]);
         }
-        
-        //loads the hangman image
+        //image part of center
         GraphicalHanger gh = new GraphicalHanger();
-        gh.add(this.currentTrys, BorderLayout.NORTH);
-        holder.add(gh, BorderLayout.SOUTH);
+        holder.add(gh, BorderLayout.NORTH);
         holder.add(alphaButtonsPannel);
         
         this.add(holder, BorderLayout.CENTER);
@@ -124,7 +138,7 @@ public class GUIFrame extends JFrame implements ActionListener{
         if (e.getSource() == this.testButton) {
             WordRandomiser wr = new WordRandomiser();
             System.out.println("Random word is: " + wr.randomWord);
-            this.testText.setText(wr.randomWord);
+            this.hangmanWord.setText(wr.randomWord);
             
             //added for testing
             HangmanDisplay hd = new HangmanDisplay();
