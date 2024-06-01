@@ -23,6 +23,7 @@ public class GameSetup {
     private String word;
     public String underline;
     public int count;
+    public boolean win;
     
     public GameSetup(){
         this.wordRandomiser = new WordRandomiser();
@@ -32,7 +33,7 @@ public class GameSetup {
         this.gameEnded = false;
         
         this.word = wordRandomiser.randomWord; //pick the random word for this game
-        
+        this.win = false;
         
         initializeUnderline();
         
@@ -53,7 +54,10 @@ public class GameSetup {
     }
 
     public boolean isGameEnded() {
-        if(this.remainingTries < 0){
+        if(this.remainingTries <= 0){
+            gameEnded = true;
+        }
+        else if(this.win == true){
             gameEnded = true;
         }
         else{

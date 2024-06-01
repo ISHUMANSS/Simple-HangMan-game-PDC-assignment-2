@@ -14,10 +14,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 //Frame that sets up the game
@@ -32,10 +33,12 @@ public class GUIFrame extends JFrame implements ActionListener{
     //Labels
     public JLabel hangmanWord;
     public JLabel lives;
+    public JLabel gameOverLabel;
     
     //Fonts
     public Font hangmanWordFont;
     public Font livesFont;
+    public Font gameOverFont;
     
     //buttons
     private static final String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
@@ -49,6 +52,11 @@ public class GUIFrame extends JFrame implements ActionListener{
     
     public GuessedLetters guessedLetters;
     
+    
+    
+    //pannels
+    JPanel center;
+    JPanel northPanel;
     
     //constructor that makes all the components work
     public GUIFrame(){
@@ -75,13 +83,15 @@ public class GUIFrame extends JFrame implements ActionListener{
         //set up the fonts
         this.hangmanWordFont = new Font("Calibri", Font.BOLD, 30);
         this.livesFont = new Font("Calibri", Font.PLAIN, 20);
+        this.gameOverFont = new Font("Calibri", Font.BOLD, 30);
         
         //sets up all the components
         this.hangmanWord = new JLabel("HangMan word", SwingConstants.CENTER);
         this.hangmanWord.setFont(hangmanWordFont);
         this.lives = new JLabel("Lives left: 8", SwingConstants.CENTER);//how many lifes left
         this.lives.setFont(livesFont);
-        
+        this.gameOverLabel = new JLabel("GAME OVER", SwingConstants.CENTER);
+        this.gameOverLabel.setFont(gameOverFont);
         
         //set up alphabet buttons
         for(int i = 0; i < letters.length; ++i){
@@ -105,31 +115,29 @@ public class GUIFrame extends JFrame implements ActionListener{
     
     public void initPanels(){
         //north Panel
-        JPanel northPanel = new JPanel();
+        this.northPanel = new JPanel();
         northPanel.setLayout(new GridLayout(2,1));
         northPanel.add(hangmanWord);
         northPanel.add(lives);
         
         this.add(northPanel, BorderLayout.NORTH);
         
-        
-        
         //Center Pannel
         //Buttons part of center
-        JPanel holder = new JPanel();
-        holder.setLayout(new GridLayout(2,1));
+        this.center = new JPanel();
+        center.setLayout(new GridLayout(2,1));
         JPanel alphaButtonsPannel = new JPanel();
         alphaButtonsPannel.setLayout(new GridLayout(2, 13));
         for(int i = 0; i < alphabetButtons.length; i++){
             alphaButtonsPannel.add(alphabetButtons[i]);
         }
         //image part of center
-        holder.add(hangmanImage, BorderLayout.NORTH);
-        holder.add(alphaButtonsPannel);
+        center.add(hangmanImage, BorderLayout.NORTH);
+        center.add(alphaButtonsPannel);
         
-        this.add(holder, BorderLayout.CENTER);
+        this.add(center, BorderLayout.CENTER);
         
-        
+      
     }
     
     public void initActionListener(){
@@ -143,35 +151,71 @@ public class GUIFrame extends JFrame implements ActionListener{
     }
     
     private boolean hang(String guess){
-        guess = guess.toLowerCase().trim();
-        if(!guessedLetters.guessAdd(guess.charAt(0))){
-            return false;
-        }
-    
-        StringBuilder newUnderline = new StringBuilder(gameSetup.underline);
-    
-        for (int i = 0; i < gameSetup.getWord().length(); i++) {
-            if (gameSetup.getWord().charAt(i) == guess.charAt(0)) {
-                newUnderline.setCharAt(i * 2, guess.charAt(0));
+        if(!gameSetup.isGameEnded()){
+            guess = guess.toLowerCase().trim();
+            if(!guessedLetters.guessAdd(guess.charAt(0))){
+                return false;
+            }
+
+            StringBuilder newUnderline = new StringBuilder(gameSetup.underline);
+
+            for (int i = 0; i < gameSetup.getWord().length(); i++) {
+                if (gameSetup.getWord().charAt(i) == guess.charAt(0)) {
+                    newUnderline.setCharAt(i * 2, guess.charAt(0));
+                }
+            }
+
+            if (!gameSetup.getWord().contains(guess)) { 
+                //gameSetup.count++;
+                hangmanDisplay.incrementCount();
+                gameSetup.remainingTries--;
+                System.out.println("\nIncorrect letter. Remaining tries are: " + gameSetup.remainingTries);
+                lives.setText("Lives left: " + gameSetup.remainingTries);
+                hangmanDisplay.displayHangman();
+                return false;
+            } else {
+                gameSetup.underline = newUnderline.toString(); 
+                hangmanWord.setText(gameSetup.underline);
+                hangmanDisplay.displayHangman();
+                return true;
             }
         }
-
-        if (!gameSetup.getWord().contains(guess)) { 
-            //gameSetup.count++;
-            hangmanDisplay.incrementCount();
-            gameSetup.remainingTries--;
-            System.out.println("\nIncorrect letter. Remaining tries are: " + gameSetup.remainingTries);
-            
-            hangmanDisplay.displayHangman();
+        else{
             return false;
-        } else {
-            gameSetup.underline = newUnderline.toString(); 
-            hangmanWord.setText(gameSetup.underline);
-            hangmanDisplay.displayHangman();
-            return true;
         }
         
     }
+    
+    //checks to see if the game is over
+    public void gameOver(){
+        if(gameSetup.isGameEnded()){
+            if(gameSetup.win){
+                gameOverLabel.setText("Game Over: good job on the win");
+                
+                center.add(gameOverLabel);
+            }
+            else{
+                hangmanWord.setText(gameSetup.getWord());
+                center.add(gameOverLabel);  
+            }
+
+            
+            //this.setVisible(false);
+            
+        }
+    }
+    
+    public void didWin(){
+        if(gameSetup.underline.replace(" ", "").equals(gameSetup.getWord())){
+            System.out.println("\nWELL DONE! \nYou have guessed successfully! \nThe word was: " + gameSetup.getWord());
+            gameSetup.win = true;
+            gameSetup.isGameEnded();
+            
+        }
+    }
+    
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -185,9 +229,14 @@ public class GUIFrame extends JFrame implements ActionListener{
 
                     if(hang(buttonsText)){//letter guessed was right
                         btn.setBackground(Color.GREEN);
+                        didWin();
+                        gameOver();
+                        
                     }
                     else{//letter guess was wrong
                         btn.setBackground(Color.red);
+                        //lives.setText("Lives left: " + gameSetup.remainingTries);
+                        gameOver();
                     }
 
                     System.out.println("Contains: " + buttonsText);
