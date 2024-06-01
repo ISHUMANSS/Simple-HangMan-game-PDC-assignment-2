@@ -10,6 +10,7 @@ package Game;
  */
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -71,8 +72,8 @@ public class GUIFrame extends JFrame implements ActionListener{
         //set up alphabet buttons
         for(int i = 0; i < letters.length; ++i){
             this.alphabetButtons[i] = new JButton(letters[i]);
-            this.alphabetButtons[i].addActionListener(this);
             
+            //was adding action listeners to the buttons twice
         }
         
         //makes the JFrame
@@ -94,16 +95,18 @@ public class GUIFrame extends JFrame implements ActionListener{
         JPanel northPanel = new JPanel();
         northPanel.setLayout(new GridLayout(2,1));
         northPanel.add(hangmanWord);
-        northPanel.add(lives,BorderLayout.SOUTH);
+        northPanel.add(lives);
+        
         this.add(northPanel, BorderLayout.NORTH);
         
         
         //south Panel
         JPanel southPanel = new JPanel();
         southPanel.add(testButton);
+        
         this.add(southPanel, BorderLayout.SOUTH);
         
-        //Center section
+        //Center Pannel
         //Buttons part of center
         JPanel holder = new JPanel();
         holder.setLayout(new GridLayout(2,1));
@@ -113,7 +116,7 @@ public class GUIFrame extends JFrame implements ActionListener{
             alphaButtonsPannel.add(alphabetButtons[i]);
         }
         //image part of center
-        GraphicalHanger gh = new GraphicalHanger();
+        GraphicalHanger gh = new GraphicalHanger(hangmanDisplay);
         holder.add(gh, BorderLayout.NORTH);
         holder.add(alphaButtonsPannel);
         
@@ -126,8 +129,8 @@ public class GUIFrame extends JFrame implements ActionListener{
         //assigns all the action listeners
         this.testButton.addActionListener(this);
         
-        for(int i = 0; i < alphabetButtons.length; i++ ){
-            this.alphabetButtons[i].addActionListener(this);
+        for (JButton alphabetButton : alphabetButtons) {
+            alphabetButton.addActionListener(this);
         }
         
         
@@ -139,27 +142,45 @@ public class GUIFrame extends JFrame implements ActionListener{
             WordRandomiser wr = new WordRandomiser();
             System.out.println("Random word is: " + wr.randomWord);
             this.hangmanWord.setText(wr.randomWord);
-            
+           
             //added for testing
             HangmanDisplay hd = new HangmanDisplay();
             hd.displayHangman();
             hd.incrementCount();
             hd.displayHangman();
         }
-        if(e.getSource() instanceof JButton){
-            JButton pressedButton = (JButton) e.getSource();
-            
-            String buttonsName = pressedButton.getName();//Currently shows null :(
-            String buttonsText = pressedButton.getText().trim();
-            
-            if(buttonsText.equals(Character.isAlphabetic(0)) ){
-                //what the button does
+        for(JButton btn : alphabetButtons){
+            if(e.getSource() == btn){
                 
+                String buttonsText = btn.getText().trim();
+
+                //if the letter hasn't alrealdy been guessed
+//                if(){
+//                    
+//                }
+//                else{//letter has been guessed
+//                    btn.setBackground(Color.red);
+//                }
+                
+                System.out.println("Contains: " + buttonsText);
             }
-            
-            //Prints out twice?
-            System.out.println(buttonsName + " was pressed, contains: " + buttonsText);
         }
+//        old button code
+//        if(e.getSource() == this.alphabetButtons){
+//            
+//            
+//            JButton pressedButton = (JButton) e.getSource();
+//            
+//            String buttonsName = pressedButton.getName();//Currently shows null :(
+//            String buttonsText = pressedButton.getText().trim();
+//            
+//            if(buttonsText.equals(Character.isAlphabetic(0)) ){
+//                //what the button does
+//                
+//            }
+//            
+//            System.out.println(buttonsName + " was pressed, contains: " + buttonsText);
+//        }
         
         
         

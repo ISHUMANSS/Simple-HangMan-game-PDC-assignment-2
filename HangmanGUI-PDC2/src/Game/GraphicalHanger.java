@@ -34,10 +34,14 @@ public class GraphicalHanger extends JPanel{
     
     
     //currently un used for if the hangman display class is given to this class
-//    public GraphicalHanger(HangmanDisplay hangmanDisplay ){
-//        this.image = new ImageIcon("./images/HangmanImageDefult.png");
-//        this.hangmanCounter = hangmanDisplay;
-//    }
+    public GraphicalHanger(HangmanDisplay hangmanDisplay ){
+        this.image = new ImageIcon(new ImageIcon("./images/HangmanImageDefult.png").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH));
+        
+        this.lableForImage = new JLabel(image);
+        
+        this.add(lableForImage,BorderLayout.SOUTH);
+        this.hangmanCounter = new HangmanDisplay();
+    }
     public GraphicalHanger(){
         this.image = new ImageIcon(new ImageIcon("./images/HangmanImageDefult.png").getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH));
         
