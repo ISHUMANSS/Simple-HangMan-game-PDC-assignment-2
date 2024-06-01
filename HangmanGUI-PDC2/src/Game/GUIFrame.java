@@ -29,7 +29,6 @@ public class GUIFrame extends JFrame implements ActionListener{
     public String TITLE = "Hangman Game";
     
     
-    
     //Labels
     public JLabel hangmanWord;
     public JLabel lives;
@@ -39,21 +38,37 @@ public class GUIFrame extends JFrame implements ActionListener{
     public Font livesFont;
     
     //buttons
-    public JButton testButton; //currenly starts the game to get rid of soon
     private static final String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
     public JButton [] alphabetButtons = new JButton[letters.length];
     
     
-    public HangmanGame gameRunner ;
+    //Set up other needed classes
     public HangmanDisplay hangmanDisplay;
+    public GraphicalHanger hangmanImage;
+    public GameSetup gameSetup;
     
+    public GuessedLetters guessedLetters;
     
     
     //constructor that makes all the components work
     public GUIFrame(){
         initComponents();
+        initGame();
         initPanels();
         initActionListener();
+        
+    }
+    
+    public void initGame(){
+        //set up the other needed classes
+        this.hangmanDisplay = new HangmanDisplay();
+        this.hangmanImage = new GraphicalHanger(hangmanDisplay);
+        this.gameSetup = new GameSetup();
+        
+        this.guessedLetters = new GuessedLetters();
+        
+        this.hangmanWord.setText(gameSetup.underline);
+        
     }
     
     public void initComponents(){
@@ -62,7 +77,6 @@ public class GUIFrame extends JFrame implements ActionListener{
         this.livesFont = new Font("Calibri", Font.PLAIN, 20);
         
         //sets up all the components
-        this.testButton = new JButton("Gamestart");
         this.hangmanWord = new JLabel("HangMan word", SwingConstants.CENTER);
         this.hangmanWord.setFont(hangmanWordFont);
         this.lives = new JLabel("Lives left: 8", SwingConstants.CENTER);//how many lifes left
@@ -73,7 +87,6 @@ public class GUIFrame extends JFrame implements ActionListener{
         for(int i = 0; i < letters.length; ++i){
             this.alphabetButtons[i] = new JButton(letters[i]);
             
-            //was adding action listeners to the buttons twice
         }
         
         //makes the JFrame
@@ -100,11 +113,6 @@ public class GUIFrame extends JFrame implements ActionListener{
         this.add(northPanel, BorderLayout.NORTH);
         
         
-        //south Panel
-        JPanel southPanel = new JPanel();
-        southPanel.add(testButton);
-        
-        this.add(southPanel, BorderLayout.SOUTH);
         
         //Center Pannel
         //Buttons part of center
@@ -116,8 +124,7 @@ public class GUIFrame extends JFrame implements ActionListener{
             alphaButtonsPannel.add(alphabetButtons[i]);
         }
         //image part of center
-        GraphicalHanger gh = new GraphicalHanger(hangmanDisplay);
-        holder.add(gh, BorderLayout.NORTH);
+        holder.add(hangmanImage, BorderLayout.NORTH);
         holder.add(alphaButtonsPannel);
         
         this.add(holder, BorderLayout.CENTER);
@@ -127,7 +134,6 @@ public class GUIFrame extends JFrame implements ActionListener{
     
     public void initActionListener(){
         //assigns all the action listeners
-        this.testButton.addActionListener(this);
         
         for (JButton alphabetButton : alphabetButtons) {
             alphabetButton.addActionListener(this);
@@ -135,53 +141,61 @@ public class GUIFrame extends JFrame implements ActionListener{
         
         
     }
+    
+    private boolean hang(String guess){
+        guess = guess.toLowerCase().trim();
+        if(!guessedLetters.guessAdd(guess.charAt(0))){
+            return false;
+        }
+    
+        StringBuilder newUnderline = new StringBuilder(gameSetup.underline);
+    
+        for (int i = 0; i < gameSetup.getWord().length(); i++) {
+            if (gameSetup.getWord().charAt(i) == guess.charAt(0)) {
+                newUnderline.setCharAt(i * 2, guess.charAt(0));
+            }
+        }
+
+        if (!gameSetup.getWord().contains(guess)) { 
+            //gameSetup.count++;
+            hangmanDisplay.incrementCount();
+            gameSetup.remainingTries--;
+            System.out.println("\nIncorrect letter. Remaining tries are: " + gameSetup.remainingTries);
+            
+            hangmanDisplay.displayHangman();
+            return false;
+        } else {
+            gameSetup.underline = newUnderline.toString(); 
+            hangmanWord.setText(gameSetup.underline);
+            hangmanDisplay.displayHangman();
+            return true;
+        }
+        
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.testButton) {
-            WordRandomiser wr = new WordRandomiser();
-            System.out.println("Random word is: " + wr.randomWord);
-            this.hangmanWord.setText(wr.randomWord);
-           
-            //added for testing
-            HangmanDisplay hd = new HangmanDisplay();
-            hd.displayHangman();
-            hd.incrementCount();
-            hd.displayHangman();
-        }
-        for(JButton btn : alphabetButtons){
-            if(e.getSource() == btn){
+        if(!gameSetup.isGameEnded()){
+            for(JButton btn : alphabetButtons){
                 
-                String buttonsText = btn.getText().trim();
+                if(e.getSource() == btn){
 
-                //if the letter hasn't alrealdy been guessed
-//                if(){
-//                    
-//                }
-//                else{//letter has been guessed
-//                    btn.setBackground(Color.red);
-//                }
-                
-                System.out.println("Contains: " + buttonsText);
+                    String buttonsText = btn.getText().trim();
+
+
+                    if(hang(buttonsText)){//letter guessed was right
+                        btn.setBackground(Color.GREEN);
+                    }
+                    else{//letter guess was wrong
+                        btn.setBackground(Color.red);
+                    }
+
+                    System.out.println("Contains: " + buttonsText);
+                }
+
             }
         }
-//        old button code
-//        if(e.getSource() == this.alphabetButtons){
-//            
-//            
-//            JButton pressedButton = (JButton) e.getSource();
-//            
-//            String buttonsName = pressedButton.getName();//Currently shows null :(
-//            String buttonsText = pressedButton.getText().trim();
-//            
-//            if(buttonsText.equals(Character.isAlphabetic(0)) ){
-//                //what the button does
-//                
-//            }
-//            
-//            System.out.println(buttonsName + " was pressed, contains: " + buttonsText);
-//        }
-        
+
         
         
     }

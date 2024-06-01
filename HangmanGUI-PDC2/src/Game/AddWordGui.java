@@ -32,7 +32,7 @@ public class AddWordGui extends javax.swing.JFrame {
     private void initComponents() {
 
         addWordLabel = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        wordInputField = new javax.swing.JTextField();
         addWordButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -40,10 +40,10 @@ public class AddWordGui extends javax.swing.JFrame {
         addWordLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         addWordLabel.setText("Add Word:");
 
-        jTextField1.setText("word");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        wordInputField.setText("word");
+        wordInputField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                wordInputFieldActionPerformed(evt);
             }
         });
 
@@ -68,7 +68,7 @@ public class AddWordGui extends javax.swing.JFrame {
                         .addComponent(addWordLabel))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(117, 117, 117)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(wordInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -77,7 +77,7 @@ public class AddWordGui extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(addWordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(wordInputField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(70, 70, 70)
                 .addComponent(addWordButton)
                 .addGap(60, 60, 60))
@@ -86,12 +86,14 @@ public class AddWordGui extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void wordInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wordInputFieldActionPerformed
+        //word the user wants to add
+        
+    }//GEN-LAST:event_wordInputFieldActionPerformed
 
     private void addWordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addWordButtonActionPerformed
-        // TODO add your handling code here:
+        //Submit the word to the word database
+        
     }//GEN-LAST:event_addWordButtonActionPerformed
 
     /**
@@ -132,6 +134,6 @@ public class AddWordGui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addWordButton;
     private javax.swing.JLabel addWordLabel;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField wordInputField;
     // End of variables declaration//GEN-END:variables
 }

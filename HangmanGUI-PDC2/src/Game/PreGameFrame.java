@@ -17,7 +17,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 
 public class PreGameFrame extends JFrame implements ActionListener{
 
@@ -33,6 +32,19 @@ public class PreGameFrame extends JFrame implements ActionListener{
     public JButton start;
     public JButton addWord;
     public JButton quit;
+    
+    
+    //Set up other frames
+    public AddWordGui addWordGUI;
+    public UserSignUpGUI userSignUp;
+    public UserLogin userLogin;
+    public GUIFrame hangmanGame;
+    
+    
+    //set up background components
+    
+    
+    
     
     
     public PreGameFrame(){
@@ -91,15 +103,38 @@ public class PreGameFrame extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.start) {
             System.out.println("Game started button");
+            //make game code
+            hangmanGame = new GUIFrame();
+            hangmanGame.setVisible(true);
+            
+            //this.setVisible(false);
         }
         if (e.getSource() == this.signIn){
             System.out.println("Sign in button");
+            //Sign in code
+            userLogin = new UserLogin();
+            userLogin.setVisible(true);
+            
+            //this.setVisible(false);
+            
         }
         if (e.getSource() == this.signUp) {
             System.out.println("Sign up button");
+            //Sign up code
+            userSignUp = new UserSignUpGUI();
+            userSignUp.setVisible(true);
+            
+            //this.setVisible(false);
+            
         }
         if (e.getSource() == this.addWord){
             System.out.println("Add word button");
+            //add words code
+            addWordGUI = new AddWordGui();
+            addWord.setVisible(true);
+            
+            //this.setVisible(false);
+            
         }
         if (e.getSource() == this.quit){
             System.out.println("Quit button");

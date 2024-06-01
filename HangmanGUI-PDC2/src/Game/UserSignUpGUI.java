@@ -115,15 +115,21 @@ public class UserSignUpGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
-        // TODO add your handling code here:
+        //user types in their wanted username
+        
+        
+        
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        // TODO add your handling code here:
+        //Sign up the user if everything is all good
+        
+        
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
-        // TODO add your handling code here:
+        //User types in their password they want
+        
     }//GEN-LAST:event_passwordFieldActionPerformed
 
     /**

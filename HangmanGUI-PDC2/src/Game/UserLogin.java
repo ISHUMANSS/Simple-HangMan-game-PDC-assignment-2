@@ -13,6 +13,10 @@ package Game;
 //treated as a view
 public class UserLogin extends javax.swing.JFrame {
 
+    
+    
+    
+    
     /**
      * Creates new form UserLogin
      */
@@ -138,17 +142,29 @@ public class UserLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void userNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameFieldActionPerformed
-        // TODO add your handling code here:
+        //User types in their name
+        
+        
     }//GEN-LAST:event_userNameFieldActionPerformed
 
     private void passwordInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordInputActionPerformed
-        // TODO add your handling code here:
+        //user types in their password
+        
+        
     }//GEN-LAST:event_passwordInputActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
         if(evt.getSource() == this.submitButton){
+            
+            //if user was wrong
             this.usernamePasswordPrompt.setText("username or password is incorrect. try again");
+            
+            
+            //else login the user
+            
+            
+            
         }
         //Code for checking if the username is correct
         //checks using the username and the password typed in
