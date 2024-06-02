@@ -17,8 +17,13 @@ public class HangmanGUIPDC2 {
         // TODO code application logic here
         
         //sets up the pannel
-        GUIFrame gf = new GUIFrame();
-        gf.setVisible(true);
+//        GUIFrame gf = new GUIFrame();
+//        gf.setVisible(true);
+//        
+        PreGameFrame preGameFrame = new PreGameFrame();
+        preGameFrame.setVisible(true);
+        
+        
         
         
     }

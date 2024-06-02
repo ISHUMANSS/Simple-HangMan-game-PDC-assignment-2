@@ -124,7 +124,7 @@ public class HangmanGame {
                 String answer = scanner.nextLine();
                 switch (answer.toLowerCase()) {
                     case "1":
-                        UserSignUp.signUp();
+                        //UserSignUp.signUp();
                         break;
 
                     case "2":

@@ -95,6 +95,7 @@ public class HangmanDisplay{
                 System.out.println("  |        |");
                 System.out.println("  |       / \\");
                 System.out.println("______");
+                //this.makeCount0();
             break;
             default:
             break;
@@ -107,5 +108,9 @@ public class HangmanDisplay{
 
     public int obtainCount(){
         return count;
+    }
+    
+    public void makeCount0(){
+        count = 0;
     }
 }
