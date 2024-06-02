@@ -1,11 +1,9 @@
 package Game;
-
-import java.util.Scanner;
-
 /**
  *
  * @author javer
  */
+
 public class UserSignUp {
     //private static final Scanner scanner = new Scanner(System.in);
     
@@ -22,24 +20,19 @@ public class UserSignUp {
         
         if (isValidUsername(username) && isValidUsername(password)){
             String hashedPassword = PasswordManager.hashPassword(password);
-            UsernameManager.saveUsername(username, hashedPassword);
-            
-            System.out.println("Sign up successful ");
-        }   else {
+            UserDAO.addUser(username, hashedPassword);
+
+            System.out.println("Sign up has been successful");
+        } else {
             System.out.println("Please try again. Invalid username and/or password.");
         }
     }
-    
-    private static boolean isValidUsername(String username){
+
+    private static boolean isValidUsername(String username) {
         return !username.isEmpty();
     }
-    
-    private static boolean isValidPassword(String password){
+
+    private static boolean isValidPassword(String password) {
         return password.length() >= 6;
     }
-      
-    private static void storeCredentials(String username, String hashedPassword){
-        System.out.println("Storing username and password...");
-    }
-    
 }
