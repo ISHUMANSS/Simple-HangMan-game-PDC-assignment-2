@@ -43,7 +43,7 @@ public class GUIFrame extends JFrame implements ActionListener{
     //buttons
     private static final String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
     public JButton [] alphabetButtons = new JButton[letters.length];
-    
+    public JButton closeFrame;
     
     //Set up other needed classes
     public HangmanDisplay hangmanDisplay;
@@ -98,6 +98,8 @@ public class GUIFrame extends JFrame implements ActionListener{
             this.alphabetButtons[i] = new JButton(letters[i]);
             
         }
+        closeFrame = new JButton("Close");
+        
         
         //makes the JFrame
         Toolkit kit=Toolkit.getDefaultToolkit();
@@ -146,7 +148,7 @@ public class GUIFrame extends JFrame implements ActionListener{
         for (JButton alphabetButton : alphabetButtons) {
             alphabetButton.addActionListener(this);
         }
-        
+        closeFrame.addActionListener(this);
         
     }
     
@@ -193,10 +195,12 @@ public class GUIFrame extends JFrame implements ActionListener{
                 gameOverLabel.setText("Game Over: good job on the win");
                 
                 center.add(gameOverLabel);
+                center.add(closeFrame);
             }
             else{
                 hangmanWord.setText(gameSetup.getWord());
-                center.add(gameOverLabel);  
+                center.add(gameOverLabel);
+                center.add(closeFrame);
             }
 
             
@@ -239,10 +243,14 @@ public class GUIFrame extends JFrame implements ActionListener{
                         gameOver();
                     }
 
-                    System.out.println("Contains: " + buttonsText);
+                    System.out.println("Button clicked contains: " + buttonsText);
                 }
 
             }
+        }
+        
+        if(e.getSource() == closeFrame){
+            this.setVisible(false);
         }
 
         

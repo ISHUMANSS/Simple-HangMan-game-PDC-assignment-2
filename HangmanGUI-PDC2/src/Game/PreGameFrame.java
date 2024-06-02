@@ -24,7 +24,8 @@ public class PreGameFrame extends JFrame implements ActionListener{
     public int HEIGHT = 700;
     public String TITLE = "Setup Hangman Game";
     
-    
+    //UserName
+    public JLabel usernameLabel;
     
     //buttons
     public JButton signUp;
@@ -42,7 +43,9 @@ public class PreGameFrame extends JFrame implements ActionListener{
     
     
     //set up background components
-    
+    public Username username;
+    public UsernameManager usernameManager;
+    private boolean isLoggedIn;
     
     
     
@@ -62,6 +65,17 @@ public class PreGameFrame extends JFrame implements ActionListener{
         this.addWord = new JButton("Add word");//might seperate this into a section of admin users only
         this.quit = new JButton("Quit");
         
+        
+        
+        
+        //Init other needed classes
+        this.username = new Username("Guest");
+        this.usernameManager = new UsernameManager(username);
+        this.isLoggedIn = false;
+        
+        
+        this.usernameLabel = new JLabel(username.getUsername());
+        
         //makes the JFrame
         Toolkit kit=Toolkit.getDefaultToolkit();
         Dimension screenSize=kit.getScreenSize();
@@ -77,6 +91,11 @@ public class PreGameFrame extends JFrame implements ActionListener{
     }
     
     public void initPanels(){
+        
+        JPanel northPanel = new JPanel();
+        northPanel.add(usernameLabel);
+        this.add(northPanel, BorderLayout.NORTH);
+        
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(5, 1));
         centerPanel.add(signIn);
@@ -112,10 +131,13 @@ public class PreGameFrame extends JFrame implements ActionListener{
         if (e.getSource() == this.signIn){
             System.out.println("Sign in button");
             //Sign in code
-            userLogin = new UserLogin();
+            userLogin = new UserLogin(usernameManager);
             userLogin.setVisible(true);
             
             //this.setVisible(false);
+            
+            
+            usernameLabel.setText(username.getUsername());
             
         }
         if (e.getSource() == this.signUp) {
@@ -128,13 +150,16 @@ public class PreGameFrame extends JFrame implements ActionListener{
             
         }
         if (e.getSource() == this.addWord){
-            System.out.println("Add word button");
-            //add words code
-            addWordGUI = new AddWordGui();
-            addWord.setVisible(true);
             
-            //this.setVisible(false);
-            
+            if(isLoggedIn){
+                System.out.println("Add word button");
+                //add words code
+                addWordGUI = new AddWordGui();
+                addWord.setVisible(true);
+
+                //this.setVisible(false);
+
+            }
         }
         if (e.getSource() == this.quit){
             System.out.println("Quit button");

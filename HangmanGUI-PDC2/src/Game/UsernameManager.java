@@ -17,6 +17,16 @@ public class UsernameManager {
     private static final String FILENAME = "usernames.txt";
     private static final String DELIMITER = ":";
     
+    public Username username;
+    
+    public UsernameManager(){
+        this.username = null;
+    }
+    
+    public UsernameManager(Username username){
+        this.username = username;
+    }
+    
     //Save username and password hash to this file
     public static void saveUsername(String username){
     try(PrintWriter writer = new PrintWriter(new FileWriter(FILENAME, true))){
@@ -71,6 +81,23 @@ public class UsernameManager {
         }   catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    
+    
+    public boolean authenticateUser(String userName, String password) {
+        boolean authenticated = false;
+         
+        if (this.verifyPassword(userName, password)) {
+            authenticated = true;
+            System.out.println("Login successful, welcome!");
+            username.setUsername(userName);
+            
+            return authenticated;
+        } else {
+            System.out.println("Incorrect username and/or password. Please try again.");
+            return authenticated;
+        }
+
     }
     
 }

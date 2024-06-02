@@ -20,7 +20,12 @@ public class UserLogin extends javax.swing.JFrame {
     /**
      * Creates new form UserLogin
      */
-    public UserLogin() {
+    
+    public UsernameManager userNameManager;
+    
+    
+    public UserLogin(UsernameManager userManager) {
+        this.userNameManager = userManager;
         initComponents();
     }
 
@@ -157,8 +162,21 @@ public class UserLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(evt.getSource() == this.submitButton){
             
-            //if user was wrong
-            this.usernamePasswordPrompt.setText("username or password is incorrect. try again");
+            
+            String username = userNameField.getText();
+            String password = String.valueOf(passwordInput.getPassword());
+            
+            if(userNameManager.authenticateUser(username, password)){
+                this.usernamePasswordPrompt.setText("User Logged in");
+                
+                System.out.println("User Logged in");
+                this.setVisible(false);
+            
+            }
+            else{
+                this.usernamePasswordPrompt.setText("username or password is incorrect. try again");
+            
+            }
             
             
             //else login the user
@@ -200,7 +218,7 @@ public class UserLogin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserLogin().setVisible(true);
+               // new UserLogin().setVisible(true);
             }
         });
     }
