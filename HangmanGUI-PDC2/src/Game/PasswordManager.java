@@ -1,17 +1,16 @@
 package Game;
-
 /**
  *
- * @author javeria
+ * @author jav
  */
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordManager {
     
-    public static String hashPassword(String password) { 
+    public static String hashPassword(String password) {
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256"); //password hash using SHA-256
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = md.digest(password.getBytes());
             StringBuilder sb = new StringBuilder();
             for (byte b : hashBytes) {
@@ -19,8 +18,7 @@ public class PasswordManager {
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException("SHA-256 algorithm not found", e);
         }
     }
 
