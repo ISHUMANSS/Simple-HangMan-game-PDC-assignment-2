@@ -16,8 +16,8 @@ public class UserSignUpGUI extends javax.swing.JFrame {
      * Creates new form UserSignUpGUI
      */
     
-    
-    public UserSignUp userSignUp;
+    private final UserSignUp userSignUp;
+     
     public UserSignUpGUI() {
         userSignUp = new UserSignUp();
         initComponents();
@@ -137,16 +137,17 @@ public class UserSignUpGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameFieldActionPerformed
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        //Sign up the user if everything is all good
+         //Sign up the user if everything is all good
         String userName = this.usernameField.getText();
         String password = this.passwordField.getText();
-        userSignUp.signUp(userName, password);
-        signUpPrompt.setText("User Signed up");
-        System.out.println("User signed up");
-        
-        this.setVisible(false);
-        
-        
+        if (UserSignUp.signUp(userName, password)) {
+            signUpPrompt.setText("User Signed up");
+            System.out.println("User signed up");
+
+            this.setVisible(false);
+        } else {
+            signUpPrompt.setText("Invalid username or password. Please try again.");
+        }
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void passwordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordFieldActionPerformed
