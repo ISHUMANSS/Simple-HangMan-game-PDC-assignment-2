@@ -1,104 +1,97 @@
 package Game;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 /**
  *
- * @author javeria 
+ * @author jav
  */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class UsernameManager {
-    private static final String FILENAME = "usernames.txt";
-    private static final String DELIMITER = ":";
-    
+
     public Username username;
-    
-    public UsernameManager(){
+
+    public UsernameManager() {
         this.username = null;
     }
-    
-    public UsernameManager(Username username){
+
+    public UsernameManager(Username username) {
         this.username = username;
     }
-    
-    //Save username and password hash to this file
-    public static void saveUsername(String username){
-    try(PrintWriter writer = new PrintWriter(new FileWriter(FILENAME, true))){
-        writer.println(username);
-    } catch (IOException e) {
-        e.printStackTrace();
-        }
-    }
-    
-    // Load usernames and password Hashes 
-    public static List<String> loadUsernamesAndPasswordHashes()throws FileNotFoundException{
-        List<String> usernamesAndPasswordHashes = new ArrayList<>();
-        
-        try(Scanner scanner = new Scanner(new File(FILENAME))){
-            while(scanner.hasNextLine()){
-               usernamesAndPasswordHashes.add(scanner.nextLine());
-            }
-        } catch (FileNotFoundException e){
-            System.out.println("Username file not found.");
-        }   
-        return usernamesAndPasswordHashes; 
-    }
-    
-    
-    
-    public static boolean verifyPassword(String username, String password) {
-        
-        try {
-            List<String> usernamesAndPasswordHashes = loadUsernamesAndPasswordHashes();
-        for (String entry : usernamesAndPasswordHashes) {
-            String[] parts = entry.split(DELIMITER);
-            if (parts.length == 2 && parts[0].equals(username)) {
-                String savedPasswordHash = parts[1]; // hash comparison
-                    String providedPasswordHash = PasswordManager.hashPassword(password);
-                return savedPasswordHash.equals(providedPasswordHash);
-            }
-        }
-    }   
-        catch (FileNotFoundException e){
-            System.out.println("File of username not found");
-        }
-        return false; // Username not found
-    }
-    
-    private static String hashPassword(String password){
-        return password;
-    }
-    
-    public static void saveUsername (String username, String hashedPassword){
-        try (PrintWriter writer = new PrintWriter(new FileWriter(FILENAME, true))){
-            writer.println(username + DELIMITER + hashedPassword);
-        }   catch (IOException e) {
+
+    public static void saveUsername(String username, String hashedPassword) {
+        String sql = "INSERT INTO USERS (USERNAME, PASSWORD) VALUES (?, ?)";
+        try (Connection conn = HangmanDB.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, hashedPassword);
+            pstmt.executeUpdate();
+            System.out.println("Username saved: " + username);
+        } catch (SQLException e) {
+            System.err.println("Error saving username: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    
-    
+
+    public static boolean verifyPassword(String username, String password) {
+        String sql = "SELECT PASSWORD FROM USERS WHERE USERNAME = ?";
+        try (Connection conn = HangmanDB.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String savedPasswordHash = rs.getString("PASSWORD");
+                    String providedPasswordHash = PasswordManager.hashPassword(password);
+                    return savedPasswordHash.equals(providedPasswordHash);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error verifying password: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public static List<String> loadUsernamesAndPasswordHashes() {
+        String sql = "SELECT USERNAME, PASSWORD_HASH FROM USERS";
+        List<String> usernamesAndPasswordHashes = new ArrayList<>();
+        try (Connection conn = HangmanDB.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String username = rs.getString("USERNAME");
+                String passwordHash = rs.getString("PASSWORD_HASH");
+                usernamesAndPasswordHashes.add(username + ":" + passwordHash);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error loading usernames: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return usernamesAndPasswordHashes;
+    }
+
+    private static String hashPassword(String password) {
+        return password;
+    }
+
     public boolean authenticateUser(String userName, String password) {
         boolean authenticated = false;
-         
+
         if (this.verifyPassword(userName, password)) {
             authenticated = true;
             System.out.println("Login successful, welcome!");
-            username.setUsername(userName);
-            
+            if (username != null) {
+                username.setUsername(userName);
+            }
+
             return authenticated;
         } else {
             System.out.println("Incorrect username and/or password. Please try again.");
             return authenticated;
         }
-
     }
-    
 }
-    
