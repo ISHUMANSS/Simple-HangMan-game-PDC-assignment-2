@@ -17,9 +17,9 @@ public class UserSignUpGUI extends javax.swing.JFrame {
      */
     
     
-    
+    public UserSignUp userSignUp;
     public UserSignUpGUI() {
-        
+        userSignUp = new UserSignUp();
         initComponents();
     }
 
@@ -140,7 +140,7 @@ public class UserSignUpGUI extends javax.swing.JFrame {
         //Sign up the user if everything is all good
         String userName = this.usernameField.getText();
         String password = this.passwordField.getText();
-        UserSignUp.signUp(userName, password);
+        userSignUp.signUp(userName, password);
         signUpPrompt.setText("User Signed up");
         System.out.println("User signed up");
         

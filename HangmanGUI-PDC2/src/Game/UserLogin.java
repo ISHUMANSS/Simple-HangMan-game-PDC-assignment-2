@@ -22,9 +22,10 @@ public class UserLogin extends javax.swing.JFrame {
      */
     
     public UsernameManager userNameManager;
+    public PreGameFrame preGameFrame;
     
-    
-    public UserLogin(UsernameManager userManager) {
+    public UserLogin(UsernameManager userManager, PreGameFrame preGameFrame) {
+        this.preGameFrame = preGameFrame;
         this.userNameManager = userManager;
         initComponents();
     }
@@ -170,6 +171,8 @@ public class UserLogin extends javax.swing.JFrame {
                 this.usernamePasswordPrompt.setText("User Logged in");
                 
                 System.out.println("User Logged in");
+                preGameFrame.isLoggedIn = true;
+                preGameFrame.usernameLabel.setText(username);
                 this.setVisible(false);
             
             }
@@ -179,7 +182,7 @@ public class UserLogin extends javax.swing.JFrame {
             }
             
             
-            //else login the user
+            
             
             
             
