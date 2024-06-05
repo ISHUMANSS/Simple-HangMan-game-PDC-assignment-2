@@ -126,7 +126,11 @@ public class HangmanGame {
             String answer = scanner.nextLine();
             switch (answer.toLowerCase()) {
                 case "1":
-                    UserSignUp.signUp();
+                    System.out.print("Enter Username: ");
+                    String usernameInput = scanner.nextLine();
+                    System.out.print("Enter Password: ");
+                    String password = scanner.nextLine();
+                    UserSignUp.signUp(usernameInput, password);
                     break;
 
                 case "2":
