@@ -45,7 +45,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
     //set up background components
     public Username username;
     public UsernameManager usernameManager;
-    private boolean isLoggedIn;
+    public boolean isLoggedIn;
     
     
     
@@ -115,8 +115,11 @@ public class PreGameFrame extends JFrame implements ActionListener{
         this.addWord.addActionListener(this);
         this.quit.addActionListener(this);
         
+        
+        
     }
     
+
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -134,13 +137,12 @@ public class PreGameFrame extends JFrame implements ActionListener{
         if (e.getSource() == this.signIn){
             System.out.println("Sign in button");
             //Sign in code
-            userLogin = new UserLogin(usernameManager);
+            userLogin = new UserLogin(usernameManager,this);
             userLogin.setVisible(true);
             
             //this.setVisible(false);
             
             
-            usernameLabel.setText(username.getUsername());
             
         }
         if (e.getSource() == this.signUp) {
@@ -162,6 +164,9 @@ public class PreGameFrame extends JFrame implements ActionListener{
 
                 //this.setVisible(false);
 
+            }
+            else{
+                System.out.println("User is not logged in");
             }
         }
         if (e.getSource() == this.quit){
