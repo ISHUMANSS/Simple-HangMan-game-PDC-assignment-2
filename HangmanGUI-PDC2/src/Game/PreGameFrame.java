@@ -70,7 +70,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
         
         //Init other needed classes
         this.username = new Username("Guest");
-        this.usernameManager = new UsernameManager(username);
+        this.usernameManager = new UsernameManager();
         this.isLoggedIn = false;
         
         
