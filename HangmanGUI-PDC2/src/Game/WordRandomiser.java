@@ -1,46 +1,37 @@
 package Game;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-import java.util.HashSet;
-import java.util.Random;
-
 /**
  *
- * @author alist javer
+ * @author alist jav
  */
+import java.util.List;
+import java.util.Random;
+import java.util.ArrayList;
 
-//Takes in all the words from the file and picks a random one
+/**
+ * Takes in all the words from the file and picks a random one.
+ */
 public class WordRandomiser extends ReadFile { 
     String randomWord;
     
-// randomly picks a word from the hash set and uses that as the word for the game
-    public WordRandomiser(){
+    // Randomly picks a word from the word list and uses that as the word for the game.
+    public WordRandomiser() {
         super();
-        this.randomWord = picRandom();
-        
+        this.randomWord = pickRandom();
     }
     
-    
-    public String picRandom(){
-        int size = this.wordList.size();
-        int item = new Random().nextInt(size);
-        int i = 0;
-        for(Object obj : wordList){
-            if(i == item){
-                return (String) obj;
-            }
-            i++;
+    // Randomly picks a word from the list.
+    private String pickRandom() {
+        if (this.wordList == null || this.wordList.isEmpty()) {
+            throw new IllegalStateException("Word list is empty or not initialized");
         }
-        return null;
+
+        List<String> words = new ArrayList<>(this.wordList);
+        int size = words.size();
+        int item = new Random().nextInt(size);
+        return words.get(item);
     }
     
-    public String getRandomWord(){
+    public String getRandomWord() {
         return randomWord;
     }
 }
