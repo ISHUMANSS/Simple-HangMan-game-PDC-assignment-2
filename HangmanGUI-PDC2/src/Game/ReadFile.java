@@ -1,17 +1,15 @@
 package Game;
-
-
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashSet;
-
 /**
  *
- * @author alist
+ * @author alist javer
  */
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashSet;
+
 
 //Reads all the words on the file 
 public class ReadFile {
@@ -23,24 +21,40 @@ public class ReadFile {
     }    
     
     public HashSet<String> read(){ 
-    //using hashset makes it so even if there are any dupes in the file it only makes the items turn up onece in the file
-        HashSet<String> wordsList = new HashSet<String>(); //used to make sure all Strings are unique
-        try{
-            FileReader fr = new FileReader("./resources/word_bank.txt");
-            BufferedReader inputStream = new BufferedReader(fr);
-            String line = null;
-            while((line=inputStream.readLine())!= null){ //loops through all the words in the file
-                wordsList.add(line); //adds words to the set
+        HashSet<String> wordsList = new HashSet<String>();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        try {
+            // Establish database connection
+            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/HangmanTestDB", "hangman", "hangedman");
+            
+            // Prepare SQL statement
+            String sql = "SELECT WORD FROM WORDS";
+            pstmt = conn.prepareStatement(sql);
+            
+            // Execute query
+            rs = pstmt.executeQuery();
+            
+            // Process result set
+            while (rs.next()) {
+                String word = rs.getString("WORD");
+                wordsList.add(word);
             }
-            inputStream.close();
+        } catch (SQLException e) {
+            System.out.println("Error reading words from database: " + e.getMessage());
+        } finally {
+            // Close resources
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                System.out.println("Error closing database resources: " + e.getMessage());
             }
-        catch(FileNotFoundException e){
-            System.out.println("File not found.");
         }
-        catch(IOException e) {
-            System.out.println("Error reading from file " );
-        }
+        
         return wordsList;
     }
-    
 }
