@@ -43,7 +43,8 @@ public class GUIFrame extends JFrame implements ActionListener{
     //buttons
     private static final String[] letters = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R","S", "T", "U", "V", "W", "X", "Y", "Z" };
     public JButton [] alphabetButtons = new JButton[letters.length];
-    public JButton closeFrame;
+    public JButton closeEnd;
+    public JButton close;
     
     //Set up other needed classes
     public HangmanDisplay hangmanDisplay;
@@ -98,7 +99,8 @@ public class GUIFrame extends JFrame implements ActionListener{
             this.alphabetButtons[i] = new JButton(letters[i]);
             
         }
-        closeFrame = new JButton("Close");
+        closeEnd = new JButton("Close");
+        close = new JButton("Close");
         
         
         //makes the JFrame
@@ -116,6 +118,9 @@ public class GUIFrame extends JFrame implements ActionListener{
     }
     
     public void initPanels(){
+       //close button so you can alawys ened the game
+        this.add(close,BorderLayout.SOUTH );
+        
         //north Panel
         this.northPanel = new JPanel();
         northPanel.setLayout(new GridLayout(2,1));
@@ -148,7 +153,8 @@ public class GUIFrame extends JFrame implements ActionListener{
         for (JButton alphabetButton : alphabetButtons) {
             alphabetButton.addActionListener(this);
         }
-        closeFrame.addActionListener(this);
+        closeEnd.addActionListener(this);
+        close.addActionListener(this);
         
     }
     
@@ -195,17 +201,14 @@ public class GUIFrame extends JFrame implements ActionListener{
                 gameOverLabel.setText("Game Over: good job on the win");
                 
                 center.add(gameOverLabel);
-                center.add(closeFrame);
+                center.add(closeEnd);
             }
             else{
                 hangmanWord.setText(gameSetup.getWord());
                 center.add(gameOverLabel);
-                center.add(closeFrame);
+                center.add(closeEnd);
             }
 
-            
-            //this.setVisible(false);
-            
         }
     }
     
@@ -249,11 +252,15 @@ public class GUIFrame extends JFrame implements ActionListener{
             }
         }
         
-        if(e.getSource() == closeFrame){
+        if(e.getSource() == closeEnd){
+            System.out.println("game closed");
             this.setVisible(false);
         }
-
         
+        if(e.getSource() == close){
+            System.out.println("game closed");
+            this.setVisible(false);
+        }
         
     }
 }

@@ -42,6 +42,7 @@ public class UserLogin extends javax.swing.JFrame {
         passwordLabel = new javax.swing.JLabel();
         usernamePasswordPrompt = new javax.swing.JLabel();
         userLoginLabel = new javax.swing.JLabel();
+        Close = new javax.swing.JButton();
 
         jInternalFrame1.setVisible(true);
 
@@ -91,6 +92,13 @@ public class UserLogin extends javax.swing.JFrame {
         userLoginLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         userLoginLabel.setText("User Login:");
 
+        Close.setText("Close");
+        Close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CloseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -101,11 +109,13 @@ public class UserLogin extends javax.swing.JFrame {
                         .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(passwordLabel)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(passwordLabel)
+                                    .addComponent(Close, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(32, 32, 32)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(submitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(passwordInput)))
+                                    .addComponent(passwordInput)
+                                    .addComponent(submitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -133,7 +143,9 @@ public class UserLogin extends javax.swing.JFrame {
                     .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLabel))
                 .addGap(31, 31, 31)
-                .addComponent(submitButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(submitButton)
+                    .addComponent(Close))
                 .addGap(18, 18, 18)
                 .addComponent(usernamePasswordPrompt)
                 .addGap(16, 16, 16))
@@ -172,6 +184,12 @@ public class UserLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_submitButtonActionPerformed
 
+    private void CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseActionPerformed
+        // TODO add your handling code here:
+        System.out.println("User Login closed");
+        this.setVisible(false);
+    }//GEN-LAST:event_CloseActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -208,6 +226,7 @@ public class UserLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Close;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JPasswordField passwordInput;
     private javax.swing.JLabel passwordLabel;
