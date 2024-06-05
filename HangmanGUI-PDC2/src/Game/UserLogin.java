@@ -12,11 +12,6 @@ package Game;
 
 //treated as a view
 public class UserLogin extends javax.swing.JFrame {
-
-    
-    
-    
-    
     /**
      * Creates new form UserLogin
      */
@@ -160,35 +155,21 @@ public class UserLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordInputActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        // TODO add your handling code here:
-        if(evt.getSource() == this.submitButton){
-            
-            
-            String username = userNameField.getText();
-            String password = String.valueOf(passwordInput.getPassword());
-            
-            if(userNameManager.authenticateUser(username, password)){
-                this.usernamePasswordPrompt.setText("User Logged in");
-                
-                System.out.println("User Logged in");
-                preGameFrame.isLoggedIn = true;
-                preGameFrame.usernameLabel.setText(username);
-                this.setVisible(false);
-            
-            }
-            else{
-                this.usernamePasswordPrompt.setText("username or password is incorrect. try again");
-            
-            }
-            
-            
-            
-            
-            
-            
+       if(evt.getSource() == this.submitButton) {
+        String username = userNameField.getText();
+        String password = String.valueOf(passwordInput.getPassword());
+        
+        if(userNameManager.authenticateUser(username, password)) {
+            this.usernamePasswordPrompt.setText("User Logged in");
+            System.out.println("User Logged in");
+            preGameFrame.isLoggedIn = true;
+            preGameFrame.usernameLabel.setText(username);
+            this.setVisible(false);
+        } else {
+            this.usernamePasswordPrompt.setText("Username or password is incorrect. Please try again.");
         }
-        //Code for checking if the username is correct
-        //checks using the username and the password typed in
+    }
+
     }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
