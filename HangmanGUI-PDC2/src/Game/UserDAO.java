@@ -1,45 +1,38 @@
 package Game;
-
+/**
+ *
+ * @author jav 
+ */
 import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- *
- * @author javeria 
- */
-public class UserDAO {
-    
-    private Connection conn;
-    
-   
-    public UserDAO(Connection conn) {
-        this.conn = conn;
-    }
-    
-    public boolean registerUser(String username, String password) {
-        try {
-            Statement statement = conn.createStatement();
-            String sql = "INSERT INTO Users (username, password) VALUES ('" + username + "', '" + password + "')";
-            int rowsInserted = statement.executeUpdate(sql);
-            return rowsInserted > 0;
-        } catch (SQLException e) {
+public class UserDAO{
+    public static void addUser(String username, String password){
+        String sql = "INSERT INTO USERS (USERNAME, PASSWORD) VALUES (?, ?)";
+        try (Connection conn = HangmanDB.getInstance().getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.executeUpdate();
+        }   catch (SQLException e){
             e.printStackTrace();
-            return false;
         }
     }
 
-
-    public boolean authenticateUser(String username, String password) {
-        try {
-            Statement statement = conn.createStatement();
-            String sql = "SELECT * FROM Users WHERE username = '" + username + "' AND password = '" + password + "'";
-            ResultSet resultSet = statement.executeQuery(sql);
-            return resultSet.next();
+    public static boolean verifyUser(String username, String password){
+        String sql = "SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
+        try (Connection conn = HangmanDB.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 }
