@@ -18,7 +18,10 @@ public class AddWordGui extends javax.swing.JFrame {
     /**
      * Creates new form AddWordGui
      */
+    
+    public WordDAO wordDatabase;
     public AddWordGui() {
+        wordDatabase = new WordDAO();
         initComponents();
     }
 
@@ -93,6 +96,12 @@ public class AddWordGui extends javax.swing.JFrame {
 
     private void addWordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addWordButtonActionPerformed
         //Submit the word to the word database
+        String word = wordInputField.getText();
+        
+        wordDatabase.addWord(word);
+        
+        System.out.println("Word Added");
+        this.setVisible(false);
         
     }//GEN-LAST:event_addWordButtonActionPerformed
 

@@ -120,6 +120,8 @@ public class PreGameFrame extends JFrame implements ActionListener{
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        
         if (e.getSource() == this.start) {
             System.out.println("Game started button");
             //make game code
@@ -128,6 +130,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
             
             //this.setVisible(false);
         }
+        
         if (e.getSource() == this.signIn){
             System.out.println("Sign in button");
             //Sign in code
@@ -155,7 +158,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
                 System.out.println("Add word button");
                 //add words code
                 addWordGUI = new AddWordGui();
-                addWord.setVisible(true);
+                addWordGUI.setVisible(true);
 
                 //this.setVisible(false);
 
