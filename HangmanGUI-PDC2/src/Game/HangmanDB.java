@@ -1,96 +1,67 @@
 package Game;
-
 /**
  *
- * @author javer
+ * @author jav
  */
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-
 
 public class HangmanDB {
-    
+
     private static final String USER_NAME = "hangman";
     private static final String PASSWORD = "hangedman";
     private static final String URL = "jdbc:derby://localhost:1527/HangmanDB";
-    
-    Connection conn;
-    
-    public HangmanDB(){
+
+    private static HangmanDB instance;
+    private Connection conn;
+
+    private HangmanDB() {
         establishConnection();
     }
-    
-    public static void main(String[] args) {
-        HangmanDB hangmanDb = new HangmanDB();
-        if(hangmanDb.getConnection() != null){
-            System.out.println("Successfully connected to the hangman database");
-        }   else {
-            System.out.println("Failed to connect to hangman database");
+
+    public static HangmanDB getInstance() {
+        if (instance == null) {
+            instance = new HangmanDB();
         }
-        hangmanDb.closeConnections();
+        return instance;
     }
-    
-    public Connection getConnection(){
-        if (conn == null){
+
+    public Connection getConnection() {
+        if (conn == null) {
             establishConnection();
         }
-            return this.conn;
+        return this.conn;
     }
-    
-    public void establishConnection(){
-        try{
+
+    private void establishConnection() {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-            if (conn != null){
+            if (conn != null) {
                 System.out.println("Connected to database.");
             }
-        }   catch (SQLException e){
+        } catch (ClassNotFoundException e) {
+            System.err.println("Derby JDBC Driver not found.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("SQL Exception: " + e.getMessage());
+            e.printStackTrace();
+        } catch (Exception e) {
+            System.err.println("Exception: " + e.getMessage());
             e.printStackTrace();
         }
     }
-    
-    public void closeConnections(){
-        if (conn != null){
-            try{
+
+    public void closeConnections() {
+        if (conn != null) {
+            try {
                 conn.close();
-            }   catch (SQLException ex){
-                System.out.println(ex.getMessage());
+                System.out.println("Connection closed.");
+            } catch (SQLException ex) {
+                System.err.println("Error closing connection: " + ex.getMessage());
+                ex.printStackTrace();
             }
         }
     }
-    
-    public ResultSet queryDB(String sql){
-        Connection connection = this.conn;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try{
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return resultSet;
-    }
-    
-    public void updateDB(String sql) {
-
-        Connection connection = this.conn;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            statement = connection.createStatement();
-            statement.executeUpdate(sql);
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    
 }
-
