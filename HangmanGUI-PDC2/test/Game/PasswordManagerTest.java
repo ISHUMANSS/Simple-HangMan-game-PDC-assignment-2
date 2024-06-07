@@ -6,8 +6,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
-import java.sql.SQLException;
 /**
  *
  * @author jav
@@ -59,5 +57,4 @@ public class PasswordManagerTest {
         boolean resultIncorrect = PasswordManager.verifyPassword("wrongpassword", hashedPassword); //test with wrong password
         assertFalse(resultIncorrect);
     }
-    
 }
