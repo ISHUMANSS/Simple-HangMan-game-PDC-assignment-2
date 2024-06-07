@@ -53,7 +53,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
     
     
     
-    public PreGameFrame(){
+    public PreGameFrame() throws Exception{
         initComponents();
         initPanels();
         initActionListener();
@@ -61,7 +61,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
     
     
     
-    public void initComponents(){
+    public void initComponents() throws Exception{
         this.signUp = new JButton("Sign Up");
         this.signIn = new JButton("Sign In");
         this.start = new JButton("Start Game");
@@ -182,13 +182,7 @@ public class PreGameFrame extends JFrame implements ActionListener{
         }
     }
     
-    //USED FOR BASIC TESTING!!!
-    public static void main(String[] args) {
-        
-        //will get rid of for a proper main class
-        PreGameFrame pgf = new PreGameFrame();
-        pgf.setVisible(true);
-    }
+    
     
     
 }
