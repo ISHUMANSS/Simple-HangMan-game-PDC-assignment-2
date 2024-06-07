@@ -50,7 +50,7 @@ public class WordCheckerTest {
         WordChecker instance = new WordChecker();
         
         //gets the random word from the database
-        String testWord = instance.getRandomWord(); 
+        String testWord = instance.randomWord; 
         
         boolean didWork = true;
         

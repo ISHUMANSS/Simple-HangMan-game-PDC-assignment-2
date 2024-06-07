@@ -52,7 +52,7 @@ public class WordRandomiserTest {
         Object[] wordsArray = instance.wordList.toArray();
         
         
-        String randomWord = instance.getRandomWord();
+        String randomWord = instance.randomWord;
         
         for(int i = 0; i < wordsArray.length; ++i ){
             if(wordsArray[i].equals(randomWord)){
