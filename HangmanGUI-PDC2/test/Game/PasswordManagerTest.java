@@ -59,4 +59,5 @@ public class PasswordManagerTest {
         boolean resultIncorrect = PasswordManager.verifyPassword("wrongpassword", hashedPassword); //test with wrong password
         assertFalse(resultIncorrect);
     }
+    
 }
