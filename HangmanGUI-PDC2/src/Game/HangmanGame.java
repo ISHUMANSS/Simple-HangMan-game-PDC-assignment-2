@@ -4,10 +4,10 @@ package Game;
  * @author jav
  */
 import java.util.Scanner;
+import java.sql.SQLException;
 
 public class HangmanGame {
     private boolean isLoggedIn = false;
-    private final String[] words;
     private String word;
     private String underline;
     private int count;
@@ -19,9 +19,9 @@ public class HangmanGame {
     private final HangmanDisplay hangmanDisplay;
     private final Username username;
     private final UsernameManager usernameManager;
+    private final WordRandomiser wordRandomiser;
 
-    public HangmanGame(String[] words, int maximumTries, String inputUsername, UsernameManager usernameManager) {
-        this.words = words;
+    public HangmanGame(int maximumTries, String inputUsername, UsernameManager usernameManager) {
         this.maximumTries = maximumTries;
         this.remainingTries = maximumTries;
         this.gameEnded = false;
@@ -30,17 +30,26 @@ public class HangmanGame {
         this.hangmanDisplay = new HangmanDisplay();
         this.username = new Username(inputUsername);
         this.usernameManager = usernameManager;
-        selectRandomWord();
+        this.wordRandomiser = new WordRandomiser(); // Initialize WordRandomiser
+        selectRandomWord(); // Pick a random word for the game
         initializeUnderline();
     }
 
     private void selectRandomWord() {
-        this.word = words[(int) (Math.random() * words.length)];
+        this.word = GameConnection.getRandomWord();
     }
+
 
     private void initializeUnderline() {
         this.underline = new String(new char[word.length()]).replace("\0", "_ ");
     }
+    
+    private static void addWord(Scanner scanner) {
+        System.out.println("Enter new word to add to the database:");
+        String word = scanner.nextLine().trim();
+        GameConnection.addWordToDB(word); //adds to database
+    }
+
 
     private void hang(String guess) {
         guess = guess.toLowerCase().trim();
@@ -101,19 +110,13 @@ public class HangmanGame {
     }
 
     public static void main(String[] args) {
-        WordRandomiser wr = new WordRandomiser();
-        String[] words = wr.wordList.toArray(new String[0]);
-        WordManager fw = new WordManager();
-
+      
         boolean isRunning = true;
         Scanner scanner = new Scanner(System.in);
         UsernameManager usernameManager = new UsernameManager();
-        HangmanGame game = new HangmanGame(words, 8, "your_username", usernameManager);
-
-        for (int i = 0; words != null && i < words.length; i++) {
-            words[i] = words[i].toLowerCase();
-        }
-
+        String randomWord = GameConnection.getRandomWord(); // Get a random word from the database
+        HangmanGame game = new HangmanGame(8, randomWord, usernameManager);
+        
         while (isRunning) {
             System.out.println("\nGame has started!");
             System.out.println("What would you like to do?");
@@ -122,7 +125,7 @@ public class HangmanGame {
             System.out.println("3. Start the game");
             System.out.println("4. Add a word to the database");
             System.out.println("5. Quit\n");
-
+            
             String answer = scanner.nextLine();
             switch (answer.toLowerCase()) {
                 case "1":
@@ -132,11 +135,11 @@ public class HangmanGame {
                     String password = scanner.nextLine();
                     UserSignUp.signUp(usernameInput, password);
                     break;
-
+                    
                 case "2":
                     game.authenticateUser();
                     break;
-
+                    
                 case "3":
                     if (game.isLoggedIn) {
                         if (!game.gameEnded && game.remainingTries > 0) {
@@ -146,20 +149,19 @@ public class HangmanGame {
                         System.out.println("Please sign in first.");
                     }
                     break;
-
+                    
                 case "4":
                     addWord(scanner);
                     break;
-
+                    
                 case "5":
                     isRunning = false;
                     break;
-
+                    
                 default:
                     System.out.println("That wasn't one of the options. Please input again!");
             }
         }
-
         scanner.close();
     }
 
@@ -190,26 +192,7 @@ public class HangmanGame {
             String playAgainAnswer = scan.nextLine();
             if (!playAgainAnswer.equalsIgnoreCase("yes")) {
                 playAgain = false;
-            } else {
-                game.reset();
             }
-        }
-    }
-    
-    private static void addWord(Scanner scanner) {
-        WordManager wordManager = new WordManager();
-        System.out.println("Would you like to replace all the text in the file? (yes/no)");
-        String choice = scanner.nextLine().trim().toLowerCase();
-        
-        if (!choice.equals("yes")) {
-            System.out.println("Import text you want to add to the database:");
-            String input = scanner.nextLine().trim();
-            wordManager.write(input);
-        } else {
-            // handle the case for replacing all words if needed
-            System.out.println("Import text you want to replace in the database:");
-            String input = scanner.nextLine().trim();
-            wordManager.write(input);
         }
     }
 }
