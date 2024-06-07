@@ -10,8 +10,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordRandomiser {
+public class WordRandomiser extends ReadFile{
     List<String> wordList;
+    String randomWord;
+    
+    
 
     // Randomly picks a word from the word list and uses that as the word for the game.
     public WordRandomiser() {
@@ -20,6 +23,7 @@ public class WordRandomiser {
         if (wordList.isEmpty()) {
             throw new IllegalStateException("Word list is empty or not initialized");
         }
+        this.randomWord = pickRandom();
     }
 
     // Load words from the database
