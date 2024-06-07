@@ -28,7 +28,7 @@ public class ReadFile {
         
         try {
             // Establish database connection
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/HangmanDB", "hangman", "hangedman");
+            conn = DriverManager.getConnection("jdbc:derby:HangmanDB;create=true", "hangman", "hangedman");
             
             // Prepare SQL statement
             String sql = "SELECT WORD FROM WORDS";
