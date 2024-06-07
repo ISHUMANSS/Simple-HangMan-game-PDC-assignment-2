@@ -48,6 +48,9 @@ public class PreGameFrame extends JFrame implements ActionListener{
     public boolean isLoggedIn;
     
     
+    public GameConnection gameDatabaseSetup;
+    
+    
     
     
     public PreGameFrame(){
@@ -75,6 +78,10 @@ public class PreGameFrame extends JFrame implements ActionListener{
         
         
         this.usernameLabel = new JLabel(username.getUsername());
+        
+        
+        
+        GameConnection gameDatabaseSetup = new GameConnection();
         
         //makes the JFrame
         Toolkit kit=Toolkit.getDefaultToolkit();

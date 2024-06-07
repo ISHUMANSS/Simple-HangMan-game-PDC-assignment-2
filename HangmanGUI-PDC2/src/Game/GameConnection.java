@@ -16,6 +16,13 @@ import java.util.List;
 public class GameConnection {
 
     private static HangmanDB db;
+    
+    
+    public GameConnection(){
+        createWordsTable();
+        createUsersTable();
+        populateWordsTable();
+    }
 
     static {
         try {
