@@ -12,7 +12,6 @@ import java.sql.SQLException;
  *
  * @author javer
  */
-
 public class DerbyConnectionTest {
     public static void main(String[] args) {
         String url = "jdbc:derby://localhost:1527/HangmanDB";
