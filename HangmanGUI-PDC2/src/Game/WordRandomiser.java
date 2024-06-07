@@ -3,35 +3,43 @@ package Game;
  *
  * @author alist jav
  */
-import java.util.List;
-import java.util.Random;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Takes in all the words from the file and picks a random one.
- */
-public class WordRandomiser extends ReadFile { 
-    String randomWord;
-    
+public class WordRandomiser {
+    List<String> wordList;
+
     // Randomly picks a word from the word list and uses that as the word for the game.
     public WordRandomiser() {
-        super();
-        this.randomWord = pickRandom();
-    }
-    
-    // Randomly picks a word from the list.
-    private String pickRandom() {
-        if (this.wordList == null || this.wordList.isEmpty()) {
+        wordList = new ArrayList<>();
+        loadWordsFromDatabase();
+        if (wordList.isEmpty()) {
             throw new IllegalStateException("Word list is empty or not initialized");
         }
-
-        List<String> words = new ArrayList<>(this.wordList);
-        int size = words.size();
-        int item = new Random().nextInt(size);
-        return words.get(item);
     }
-    
-    public String getRandomWord() {
-        return randomWord;
+
+    // Load words from the database
+    private void loadWordsFromDatabase() {
+        String sql = "SELECT WORD FROM WORDS";
+        try (Connection conn = HangmanDB.getInstance().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                wordList.add(rs.getString("WORD"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String pickRandom() {
+        if (wordList.isEmpty()) {
+            throw new IllegalStateException("Word list is empty or not initialized");
+        }
+        return wordList.get((int) (Math.random() * wordList.size()));
     }
 }
