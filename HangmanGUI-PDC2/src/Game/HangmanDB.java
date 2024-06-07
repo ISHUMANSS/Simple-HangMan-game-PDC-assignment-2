@@ -13,7 +13,7 @@ public class HangmanDB {
     private static final String USER_NAME = "hangman";
     private static final String PASSWORD = "hangedman";
     private static final String URL = "jdbc:derby://localhost:1527/HangmanDB";
-    
+
     private HangmanDB() throws SQLException {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver"); // Ensures correct driver
@@ -34,7 +34,11 @@ public class HangmanDB {
         } else if (instance.getConnection().isClosed()) {
             instance = new HangmanDB();
         }
-
         return instance;
+    }
+
+    public void createTables() {
+        GameConnection.createUsersTable();
+        GameConnection.createWordsTable();
     }
 }
