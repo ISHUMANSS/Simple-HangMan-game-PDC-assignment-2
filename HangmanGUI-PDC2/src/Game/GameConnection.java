@@ -16,26 +16,23 @@ import java.util.List;
 public class GameConnection {
 
     private static HangmanDB db;
-    
-    
-    public GameConnection(){
+
+    public GameConnection() throws SQLException, Exception {
+        db = HangmanDB.getInstance();
         createWordsTable();
         createUsersTable();
         populateWordsTable();
-    }
-
-    static {
-        try {
-            db = HangmanDB.getInstance();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new ExceptionInInitializerError(e);
-        }
+        testConnection();
     }
 
     public static void main(String[] args) {
-        db.createTables(); // This creates both users and words tables
-        populateWordsTable(); // Populate the WORDS table
+        try {
+            GameConnection gameConnection = new GameConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static final List<String> wordList = new ArrayList<>();
@@ -74,7 +71,7 @@ public class GameConnection {
 
     private static final String USER_NAME = "hangman";
     private static final String PASSWORD = "hangedman";
-    private static final String URL = "jdbc:derby://localhost:1527/HangmanDB";
+    private static final String URL = "jdbc:derby:HangmanDB;create=true";  // Embedded URL
 
     // Connect to the database
     public static Connection getConnection() throws SQLException {
@@ -87,8 +84,8 @@ public class GameConnection {
              Statement stmt = conn.createStatement()) {
             if (!doesTableExist(conn, "USERS")) {
                 String createUsersTable = "CREATE TABLE USERS ("
-                                        + "USERNAME VARCHAR(255) PRIMARY KEY, "
-                                        + "PASSWORD VARCHAR(255))";
+                        + "USERNAME VARCHAR(255) PRIMARY KEY, "
+                        + "PASSWORD VARCHAR(255))";
                 stmt.executeUpdate(createUsersTable);
                 System.out.println("Users table created successfully.");
             } else {
@@ -96,7 +93,7 @@ public class GameConnection {
             }
         } catch (SQLException e) {
             System.err.println("Error creating users table: " + e.getMessage());
-            e.printStackTrace(); // Print stack trace for detailed error information
+            e.printStackTrace();
         }
     }
 
@@ -105,8 +102,8 @@ public class GameConnection {
              Statement stmt = conn.createStatement()) {
             if (!doesTableExist(conn, "WORDS")) {
                 String createWordsTable = "CREATE TABLE WORDS ("
-                                        + "WORD_ID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
-                                        + "WORD VARCHAR(50))";
+                        + "WORD_ID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
+                        + "WORD VARCHAR(50))";
                 stmt.executeUpdate(createWordsTable);
                 System.out.println("Words table created successfully.");
             } else {
@@ -114,7 +111,7 @@ public class GameConnection {
             }
         } catch (SQLException e) {
             System.err.println("Error creating words table: " + e.getMessage());
-            e.printStackTrace(); // Print stack trace for detailed error information
+            e.printStackTrace();
         }
     }
 
@@ -159,6 +156,25 @@ public class GameConnection {
 
     // Gather all words from the WORDS table
     public static List<String> getAllWordsFromDB() {
-        return WordDAO.getAllWords();
+        List<String> words = new ArrayList<>();
+        String sql = "SELECT WORD FROM WORDS";
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                words.add(rs.getString("WORD"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return words;
+    }
+
+    private static void testConnection() {
+        try (Connection conn = getConnection()) {
+            System.out.println("Connected to database.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
