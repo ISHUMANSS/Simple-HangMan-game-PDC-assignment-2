@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author javer
+ * @author jav
  */
 public class HangmanDBTest {
     
