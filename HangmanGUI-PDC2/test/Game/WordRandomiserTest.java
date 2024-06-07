@@ -56,6 +56,7 @@ public class WordRandomiserTest {
         
         for(int i = 0; i < wordsArray.length; ++i ){
             if(wordsArray[i].equals(randomWord)){
+                System.out.println("The random word: (" + randomWord + ") was found in the database");
                 result = true;
             }
         }

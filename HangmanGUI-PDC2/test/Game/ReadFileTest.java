@@ -41,23 +41,22 @@ public class ReadFileTest {
      * Test of read method, of class ReadFile.
      */
     //used to test the Read file
-    //tests to see if the words in the set are the same as in the database
+    //tests to see if there are the basic words in the database
     @Test
     public void testRead() {
-       
+        //test to see if all the basic words are in the database
         System.out.println("Test read words from database");
         ReadFile instance = new ReadFile();
         
         //gets all the the words form the database
-        HashSet<String> basicWords = instance.read();
+        String[] basicWords = {"funny", "juxtaposition", "large"};//a few words that get added automaticly to the database
         HashSet<String> testingWords = instance.read();
-        Object[] wordsArray = testingWords.toArray();
-        
         boolean result = false;
         boolean expResult = true;
         //checks that the the words that occure in testing words are also in the set from the database
-        for(int i = 0; wordsArray.length > i; ++ i){
-            if(basicWords.contains(wordsArray[i])){
+        for(int i = 0; basicWords.length > i; ++ i){
+            if(testingWords.contains(basicWords[i])){
+                System.out.println("Word: " + basicWords[i] + " was found in the database");
                 result = true;
             }
             else{
